@@ -7,8 +7,10 @@ const router = express.Router();
 
 // POST /api/auth/signin
 // Pipeline: rate limit → validate → controller
+
+
 router.post(
-  "/signin",
+  "/login", // Changed from /signin to /login to match your frontend fetch
   signInLimiter,
   validate(signInSchema),
   signInController

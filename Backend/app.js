@@ -1,64 +1,43 @@
-require("dotenv").config();
-
-const express = require("express");
-const cookieParser = require("cookie-parser");
-const helmet = require("helmet");
-const mongoose = require("mongoose");
-
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const User = require('./src/models/User');
 const authRoutes = require('./src/routes/auth.routes');
-const { globalErrorHandler } = require("./src/middlewares/errorHandler.js");
-
+const { globalErrorHandler } = require('./src/middlewares/errorHandler');
 const app = express();
 
-// ── Security headers ──────────────────────────────────────────────────────────
-app.use(helmet());
+// --- Middleware ---
+app.use(cors({
+  origin: ["http://localhost:5173","http://localhost:8000"], // Exact URL of your React app
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,               // Required for withCredentials: true in Axios
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
-// ── Body parsing ──────────────────────────────────────────────────────────────
-app.use(express.json({ limit: "10kb" })); // Prevent large payload attacks
+app.use(express.json());
 app.use(cookieParser());
 
-// ── Trust proxy (required if behind Nginx / Render / Railway) ────────────────
-app.set("trust proxy", 1);
 
-// ── DB injection ──────────────────────────────────────────────────────────────
-// Pass db models via app.set so controllers stay testable
-const db = require("./src/models/User.js"); // your Mongoose models
-app.set("db", db);
 
-// ── Routes ────────────────────────────────────────────────────────────────────
-app.use("./api/auth", authRoutes);
+app.set("db", { User });
 
-// ── 404 handler ───────────────────────────────────────────────────────────────
-app.use((req, res) => {
-  res.status(404).json({ success: false, message: "Route not found" });
-});
 
-// ── Global error handler (must be last) ──────────────────────────────────────
+app.use("/api/auth", authRoutes); 
+
+// --- Error Handling ---
 app.use(globalErrorHandler);
 
-// ── DB connection + server start ──────────────────────────────────────────────
-async function start() {
-    try {
-        const uri = process.env.MONGODB_URI;
-        
-        // Debugging line: remove this once it works
-        console.log("Connecting to:", uri); 
-
-        if (!uri) {
-            throw new Error("MONGODB_URI is not defined in .env file");
-        }
-
-        await mongoose.connect(uri);
-        console.log('Connected to MongoDB');
-
-        app.listen(process.env.PORT || 3000, () => {
-            console.log('Server is running');
-        });
-    } catch (error) {
-        console.error('Startup error:', error);
-        process.exit(1);
-    }
-}
+// --- Database & Server Start ---
+const start = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI); // <--- If this hangs, server won't start
+    app.listen(8000, () => console.log("Backend running on port 8000 🚀"));
+  } catch (err) {
+    console.error("Failed to start server:", err);
+  }
+};
 
 start();
 module.exports = app; 
