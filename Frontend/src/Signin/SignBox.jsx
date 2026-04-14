@@ -16,16 +16,21 @@ const SignBox = () => {
 
   const navigate = useNavigate();
 
-  const validate = () => {
+ const validate = () => {
     const newErrors = {};
+
     if (mode === "signup" && !formData.name.trim())
       newErrors.name = "Full name is required";
 
     if (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email))
       newErrors.email = "Valid email is required";
 
-    if (formData.password.length < 6)
-      newErrors.password = "Minimum 6 characters";
+    // UPDATED REGEX: Matches the Backend (8+ chars, 1 Upper, 1 Number, 1 Special)
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+    
+    if (!passwordRegex.test(formData.password)) {
+      newErrors.password = "Min 8 chars, 1 uppercase, 1 number, and 1 special char (!@#$)";
+    }
 
     if (mode === "signup" && formData.password !== formData.confirm)
       newErrors.confirm = "Passwords do not match";
@@ -34,45 +39,37 @@ const SignBox = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async () => {
-    if (!validate()) return;
-    setLoading(true);
+ const handleSubmit = async () => {
+  if (!validate()) return;
+  setLoading(true);
 
-    try {
-      const endpoint =
-        mode === "signin"
-          ? "http://localhost:8000/api/auth/login"
-          : "http://localhost:8000/api/auth/signin";
+  try {
+    const isSignin = mode === "signin";
+    const endpoint = isSignin
+      ? "http://localhost:8000/api/auth/login"
+      : "http://localhost:8000/api/auth/signup";
 
-      // ✅ JSON Payload with all 4 values
-      const payload = {
-        name: formData.name || "",
-        email: formData.email,
-        password: formData.password,
-        accessToken: localStorage.getItem("accessToken") || "",
-      };
+    // CLEAN PAYLOAD: Only send what the Zod schemas expect
+    const payload = isSignin 
+      ? { email: formData.email, password: formData.password }
+      : { name: formData.name, email: formData.email, password: formData.password };
 
-      const res = await axios.post(endpoint, payload, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      });
+    const res = await axios.post(endpoint, payload, {
+      withCredentials: true,
+    });
 
+    if (res.data.accessToken) {
       localStorage.setItem("accessToken", res.data.accessToken);
-      navigate("/");
-    } catch (err) {
-      if (err.response) {
-        setErrors({
-          server: err.response.data?.message || "Something went wrong",
-        });
-      } else {
-        setErrors({ server: "Cannot reach server. Please try again." });
-      }
-    } finally {
-      setLoading(false);
     }
-  };
+    navigate("/");
+  } catch (err) {
+    // This will now catch your 422 or 401 errors properly
+    const serverMessage = err.response?.data?.message || "Something went wrong";
+    setErrors({ server: serverMessage });
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleChange = (e) => {
     const { name, value } = e.target;

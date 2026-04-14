@@ -381,14 +381,8 @@ const PageOne = () => {
             {/* NAV */}
             <nav className="gf-nav">
                 <a href="/" className="gf-logo">Game<span>Flix</span></a>
-                <ul className="gf-nav-links">
-                    <li><a href="#">Gaming</a></li>
-                    <li><a href="#">Esports</a></li>
-                    <li><a href="#">Sports</a></li>
-                    <li><a href="#">Live</a></li>
-                </ul>
                 <div className="gf-nav-btns">
-                    <button className="gf-btn gf-btn-outline" onClick={() => navigate("/Login")}>Sign In</button>
+                    <button className="gf-btn gf-btn-outline" onClick={() => navigate("Sign_up")}>Sign In</button>
                     <button className="gf-btn gf-btn-primary" onClick={() => navigate("/SignIn")}>Sign Up</button>
                 </div>
             </nav>
@@ -425,7 +419,7 @@ const PageOne = () => {
                     </p>
                     <div className="gf-hero-btns">
                         <button className="gf-btn gf-btn-primary gf-btn-lg" onClick={() => navigate("/SignIn")}>Sign Up Free</button>
-                        <button className="gf-btn gf-btn-ghost gf-btn-lg" onClick={() => navigate("/Login")}>Sign In</button>
+                        <button className="gf-btn gf-btn-ghost gf-btn-lg" onClick={() => navigate("Sign_up")}>Sign In</button>
                     </div>
                 </div>
             </section>
@@ -517,7 +511,7 @@ const PageOne = () => {
                     </p>
                     <div className="gf-cta-btns">
                         <button className="gf-btn gf-btn-primary gf-btn-lg" onClick={() => navigate("/SignIn")}>Sign Up Free</button>
-                        <button className="gf-btn gf-btn-ghost gf-btn-lg" onClick={() => navigate("/Login")}>Sign In</button>
+                        <button className="gf-btn gf-btn-ghost gf-btn-lg" onClick={() => navigate("Sign_up")}>Sign In</button>
                     </div>
                 </div>
             </section>
