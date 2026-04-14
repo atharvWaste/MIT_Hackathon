@@ -1,19 +1,23 @@
 const express = require("express");
-const { signInController } = require("../controllers/auth.controllers.js");
-const { validate, signInSchema } = require("../middlewares/validate.js");
+// Added signUpController here
+const { signInController, signUpController } = require("../controllers/auth.controllers.js"); 
+// Added signUpSchema here
+const { validate, signInSchema, signUpSchema } = require("../middlewares/validate.js"); 
 const { signInLimiter } = require("../middlewares/rateLimiter.js");
 
 const router = express.Router();
 
-// POST /api/auth/signin
-// Pipeline: rate limit → validate → controller
-
-
 router.post(
-  "/login", // Changed from /signin to /login to match your frontend fetch
+  "/login",
   signInLimiter,
   validate(signInSchema),
   signInController
+);
+
+router.post(
+  "/signup", 
+  validate(signUpSchema), 
+  signUpController
 );
 
 module.exports = router;

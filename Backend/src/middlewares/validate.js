@@ -1,7 +1,8 @@
 const { z } = require("zod");
 const { ValidationError } = require("../utils/AppError");
 
-// ── Schema ──────────────────────────────────────────────────────────────────
+// ── Schemas ──────────────────────────────────────────────────────────────────
+
 const signInSchema = z.object({
   email: z
     .string({ required_error: "Email is required" })
@@ -14,7 +15,28 @@ const signInSchema = z.object({
     .min(1, "Password cannot be empty"),
 });
 
+const signUpSchema = z.object({
+  name: z
+    .string({ required_error: "Name is required" })
+    .trim()
+    .min(2, "Name must be at least 2 characters")
+    .max(50, "Name too long"),
+
+  email: z
+    .string({ required_error: "Email is required" })
+    .trim()
+    .toLowerCase()
+    .email("Invalid email address"),
+
+  password: z
+    .string({ required_error: "Password is required" })
+    .min(8, "Password must be at least 8 characters")
+    .regex(/[A-Z]/, "Must contain at least one uppercase letter")
+    .regex(/[0-9]/, "Must contain at least one number"),
+});
+
 // ── Middleware factory ───────────────────────────────────────────────────────
+
 function validate(schema) {
   return (req, res, next) => {
     const result = schema.safeParse(req.body);
@@ -27,10 +49,13 @@ function validate(schema) {
       return next(new ValidationError(errors));
     }
 
-    // Overwrite req.body with the parsed (sanitised) data
     req.body = result.data;
     next();
   };
 }
 
-module.exports = { validate, signInSchema };
+module.exports = { 
+  validate, 
+  signUpSchema, 
+  signInSchema ,
+};
