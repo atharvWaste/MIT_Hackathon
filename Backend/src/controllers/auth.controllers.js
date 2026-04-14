@@ -1,4 +1,4 @@
-const { signIn } = require("../services/auth.services");
+const { signIn, signUp } = require("../services/auth.services"); 
 const User = require("../models/User");
 
 async function signInController(req, res, next) {
@@ -22,6 +22,22 @@ async function signInController(req, res, next) {
   } catch (err) {
     next(err);
   }
+
 }
 
-module.exports = { signInController };
+
+  async function signUpController(req, res, next) {
+  try {
+    const { name, email, password } = req.body;
+    const result = await signUp(name, email, password, { User });
+ 
+    res.status(201).json({
+      success: true,
+      message: "Account created successfully. You can now sign in.",
+      user: result.user,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports = { signInController , signUpController };
