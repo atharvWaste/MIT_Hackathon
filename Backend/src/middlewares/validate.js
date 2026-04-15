@@ -31,4 +31,4 @@ function validate(schema) {
   };
 }
 
-module.exports = { validate, signUpSchema, signInSchema: z.any() }; // simplified for now
+module.exports = { validate, signUpSchema, signInSchema: z.any() }; 
