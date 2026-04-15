@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Search, Home, Video, PlayCircle, MessageSquare, Bookmark, History, Monitor, Layers, Trophy, Bell, Heart, Play, Clock, Zap } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
 
-const DesktopBox = () => {
+const Minecraft = ()=>{
+
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('Home');
 
   return (
@@ -25,7 +28,10 @@ const DesktopBox = () => {
           --radius: 10px;
           --border: rgba(255,255,255,0.07);
         }
-
+*{
+background: var(--bg-deep);
+}
+  
         .game-wrapper {
           background: var(--bg-deep);
           color: var(--text-1);
@@ -155,9 +161,9 @@ const DesktopBox = () => {
             <div style={{ height: '1px', background: 'var(--border)', margin: '15px' }}></div>
             <div className="side-section">
               <p className="side-label">Esports</p>
-              <div className="side-item"><Monitor size={16} /> CS2</div>
-              <div className="side-item"><Layers size={16} /> Valorant</div>
-              <div className="side-item"><Trophy size={16} /> Dota 2</div>
+              <div className="side-item"><a onClick={()=>{navigate('../GTA')}}><Monitor size={16} /> GTA</a></div>
+              <div className="side-item" ><a onClick={()=>{navigate('../Valorant')}}><Layers size={16} /> Valorant</a></div>
+              <div className="side-item" ><a onClick={()=>{navigate('/Minecraft')}}><Trophy size={16} /> Minecraft</a></div>
             </div>
           </aside>
 
@@ -182,8 +188,51 @@ const DesktopBox = () => {
             </div>
 
             {/* VIDEO GRID */}
+            
             <div style={{ marginBottom: '20px', borderLeft: '3px solid var(--pink)', paddingLeft: '12px' }}>
               <h2 style={{ fontSize: '16px', textTransform: 'uppercase' }}>Recommended For You</h2>
+            </div>
+            
+            <div className="video-grid">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="vcard">
+                  <div className="vcard-thumb">
+                    <div style={{ position: 'absolute', bottom: '8px', left: '8px', background: 'var(--gold-dim)', border: '1px solid rgba(255,216,77,0.4)', color: 'var(--gold)', fontSize: '10px', padding: '2px 6px', borderRadius: '4px' }}>+50 XP</div>
+                  </div>
+                  <div className="vcard-body">
+                    <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'var(--bg-hover)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold' }}>CH</div>
+                    <div className="vcard-text">
+                      <div className="vcard-title">Live Match: Pro League Season {i}</div>
+                      <div className="vcard-ch-name">GamingChannel_0{i}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+                        <div style={{ marginBottom: '20px', borderLeft: '3px solid var(--pink)', paddingLeft: '12px' }}>
+              <h2 style={{ fontSize: '16px', textTransform: 'uppercase' }}>Esports</h2>
+            </div>
+            
+            <div className="video-grid">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="vcard">
+                  <div className="vcard-thumb">
+                    <div style={{ position: 'absolute', bottom: '8px', left: '8px', background: 'var(--gold-dim)', border: '1px solid rgba(255,216,77,0.4)', color: 'var(--gold)', fontSize: '10px', padding: '2px 6px', borderRadius: '4px' }}>+50 XP</div>
+                  </div>
+                  <div className="vcard-body">
+                    <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'var(--bg-hover)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold' }}>CH</div>
+                    <div className="vcard-text">
+                      <div className="vcard-title">Live Match: Pro League Season {i}</div>
+                      <div className="vcard-ch-name">GamingChannel_0{i}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+                        <div style={{ marginBottom: '20px', borderLeft: '3px solid var(--pink)', paddingLeft: '12px' }}>
+              <h2 style={{ fontSize: '16px', textTransform: 'uppercase' }}>Sports</h2>
             </div>
             
             <div className="video-grid">
@@ -209,4 +258,4 @@ const DesktopBox = () => {
   );
 };
 
-export default DesktopBox;
+export default Minecraft
