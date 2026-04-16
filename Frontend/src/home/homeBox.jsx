@@ -1,4 +1,4 @@
-import PageOne from "./PageOne";
+import PageOne from "./Pageone";
 
 const HomeBox=()=>{
 return(
