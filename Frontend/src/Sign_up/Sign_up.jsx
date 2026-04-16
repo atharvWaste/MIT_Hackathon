@@ -41,8 +41,8 @@ const Sign_up_Box = () => {
   try {
     const isSignin = mode === "signin";
     const endpoint = isSignin
-      ? "http://localhost:8000/api/auth/login"
-      : "http://localhost:8000/api/auth/signup";
+      ? " https://apexstream.onrender/api/auth/login"
+      : " https://apexstream.onrender/api/auth/signup";
 
     // CLEAN PAYLOAD: Only send what the Zod schemas expect
     const payload = isSignin 
