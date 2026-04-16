@@ -61,7 +61,7 @@ const SignBox = () => {
     if (res.data.accessToken) {
       localStorage.setItem("accessToken", res.data.accessToken);
     }
-    navigate("/");
+    navigate("/Desktop");
   } catch (err) {
     // This will now catch your 422 or 401 errors properly
     const serverMessage = err.response?.data?.message || "Something went wrong";

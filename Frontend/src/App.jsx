@@ -12,7 +12,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/SignIn" element={<Sign_up_Box />} />
       <Route path="/Sign_up" element={<SignIn />} />
-      <Route path="/Destop" element={<DestopBox />} />
+      <Route path="/Desktop" element={<DestopBox />} />
       <Route path="/GTA" element={<GTA />} />
       <Route path="/Valorant" element={<Valorant />} />
       <Route path="/Minecraft" element={<Minecraft />} />
