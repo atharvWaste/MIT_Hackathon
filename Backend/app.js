@@ -10,7 +10,7 @@ const app = express();
 
 // --- Middleware ---
 app.use(cors({
-  origin: ["http://localhost:5173","http://localhost:8000"], // Exact URL of your React app
+  origin: ["https://mit-hackathon-z2kj.onrender.com","https://apexstream.onrender.com"], // Exact URL of your React app
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,               // Required for withCredentials: true in Axios
   allowedHeaders: ["Content-Type", "Authorization"]
