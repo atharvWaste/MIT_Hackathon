@@ -6,6 +6,7 @@ import DestopBox from "./Dasktop/DestopBox.jsx";
 import  GTA from "./VideoPages/GTA.jsx";
 import  Valorant from "./VideoPages/Valorant.jsx";
 import  Minecraft from "./VideoPages/Minecraft.jsx";
+import  WatchVideo from "./Watch/WatchBox.jsx";
 function App() {
   return (
     <Routes>
@@ -16,6 +17,7 @@ function App() {
       <Route path="/GTA" element={<GTA />} />
       <Route path="/Valorant" element={<Valorant />} />
       <Route path="/Minecraft" element={<Minecraft />} />
+      <Route path="/watch" element={<WatchVideo />}/>
     </Routes>
   );
 }
